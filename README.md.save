@@ -1,0 +1,27 @@
+# PetMed 🐾
+
+Projeto Django com Tailwind CSS e DaisyUI.
+
+## Setup para desenvolvimento:
+
+```bash
+# Clonar e entrar na pasta
+git clone [url]
+cd petmed
+
+# Python environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# ou venv\Scripts\activate  # Windows
+
+# Instalar dependências Python
+pip install django
+
+# Instalar dependências Node
+npm install
+
+# Rodar Tailwind (em um terminal)
+npx tailwindcss -i ./static/src/input.css -o ./static/css/output.css --watch
+
+# Rodar Django (em outro terminal)
+python manage.py runserver
