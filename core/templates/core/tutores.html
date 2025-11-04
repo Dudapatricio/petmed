@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutores - Clínica Veterinária</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #252540;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #a855f7;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+        }
+
+        .glass-card {
+            background: rgba(37, 37, 64, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        }
+
+        .sidebar-gradient {
+            background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+        }
+
+        .stat-card {
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+
+        .page-title {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, var(--accent-primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .table-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .table-header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            color: white;
+        }
+
+        .table-row {
+            transition: all 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: var(--bg-card);
+        }
+
+        .table-row:hover {
+            background: rgba(139, 92, 246, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .search-input {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .tutor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+        }
+
+        .pets-count {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body class="text-gray-100">
+
+    <div class="drawer drawer-mobile">
+        <input id="my-drawer" type="checkbox" class="drawer-toggle" />
+        
+        <div class="drawer-content flex flex-col p-6 lg:p-8">
+            <div class="w-full mb-8 flex justify-between items-center">
+                <div>
+                    <label for="my-drawer" class="lg:hidden btn btn-ghost btn-circle text-gray-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </label>
+                    <a href="{% url 'dashboard' %}" class="inline-flex items-center gap-2 btn btn-ghost text-gray-300 hover:text-white mb-4 transition-colors">
+                        <i class="fas fa-arrow-left"></i>
+                        Voltar ao Dashboard
+                    </a>
+                    <h1 class="text-3xl lg:text-4xl font-bold page-title">Tutores Cadastrados</h1>
+                    <p class="text-gray-400 mt-2">Gerencie todos os tutores da clínica</p>
+                </div>
+                
+                <a href="{% url 'cadastrar_tutor' %}" class="btn btn-primary gap-2">
+                    <i class="fas fa-plus"></i>
+                    Novo Tutor
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                <div class="glass-card p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Total de Tutores</p>
+                        <p class="text-3xl font-bold mt-1">{{ total_tutores }}</p>
+                    </div>
+                    <div class="bg-purple-500/20 p-3 rounded-xl">
+                        <i class="fas fa-users text-2xl text-purple-400"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Ativos</p>
+                        <p class="text-3xl font-bold mt-1">{{ tutores_ativos }}</p>
+                    </div>
+                    <div class="bg-green-500/20 p-3 rounded-xl">
+                        <i class="fas fa-check-circle text-2xl text-green-400"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Pets por Tutor</p>
+                        <p class="text-3xl font-bold mt-1">
+                            {% if total_tutores > 0 %}
+                                {{ pets_por_tutor|floatformat:1 }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="bg-blue-500/20 p-3 rounded-xl">
+                        <i class="fas fa-paw text-2xl text-blue-400"></i>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-6 flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-sm">Novos (Mês)</p>
+                        <p class="text-3xl font-bold mt-1">{{ novos_mes }}</p>
+                    </div>
+                    <div class="bg-yellow-500/20 p-3 rounded-xl">
+                        <i class="fas fa-user-plus text-2xl text-yellow-400"></i>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="glass-card p-6 mb-8">
+                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                    <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                        <div class="relative flex-1">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                            <input type="text" placeholder="Buscar por nome, email ou telefone..." class="search-input pl-10 pr-4 py-2.5 rounded-lg w-full">
+                        </div>
+                        
+                        <select class="select search-input w-full sm:w-40">
+                            <option disabled selected>Status</option>
+                            <option>Todos</option>
+                            <option>Ativos</option>
+                            <option>Inativos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="flex gap-2 w-full lg:w-auto">
+                        <button class="btn btn-primary gap-2 flex-1 lg:flex-none">
+                            <i class="fas fa-filter"></i>
+                            Filtrar
+                        </button>
+                        <button class="btn btn-outline border-gray-600 text-gray-300 hover:bg-gray-700 gap-2 flex-1 lg:flex-none">
+                            <i class="fas fa-sync"></i>
+                            Atualizar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+           
+            <div class="glass-card p-0 overflow-hidden">
+                <div class="table-container">
+                    <table class="table w-full">
+                        <thead class="table-header">
+                            <tr>
+                                <th class="text-white font-semibold py-4">Tutor</th>
+                                <th class="text-white font-semibold py-4">Contato</th>
+                                <th class="text-white font-semibold py-4">Endereço</th>
+                                <th class="text-white font-semibold py-4">Pets</th>
+                                <th class="text-white font-semibold py-4 text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tutor in tutores %}
+                            <tr class="table-row">
+                                <td class="py-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="tutor-avatar">
+                                            {{ tutor.nome|first }}
+                                        </div>
+                                        <div>
+                                            <p class="font-semibold">{{ tutor.nome }}</p>
+                                            <p class="text-xs text-gray-400">ID: TUT{{ tutor.id|stringformat:"03d" }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="space-y-1">
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-phone text-green-400 text-sm"></i>
+                                            <span class="text-sm">{{ tutor.telefone }}</span>
+                                        </div>
+                                        {% if tutor.email %}
+                                        <div class="flex items-center gap-2">
+                                            <i class="fas fa-envelope text-blue-400 text-sm"></i>
+                                            <span class="text-sm">{{ tutor.email }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-map-marker-alt text-red-400 text-sm"></i>
+                                        <span class="text-sm">
+                                            {% if tutor.endereco %}
+                                                {{ tutor.endereco|truncatewords:4 }}
+                                            {% else %}
+                                                Não informado
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="flex items-center gap-2">
+                                        <span class="pets-count">{{ tutor.pets.count }} pet{{ tutor.pets.count|pluralize }}</span>
+                                        <div class="flex -space-x-2">
+                                            {% for pet in tutor.pets.all|slice:":3" %}
+                                            <div class="w-6 h-6 rounded-full 
+                                                {% if pet.especie == 'CACHORRO' %}bg-yellow-500
+                                                {% elif pet.especie == 'GATO' %}bg-purple-500
+                                                {% else %}bg-green-500{% endif %} 
+                                                border-2 border-gray-800 flex items-center justify-center">
+                                                <i class="fas 
+                                                    {% if pet.especie == 'CACHORRO' %}fa-dog
+                                                    {% elif pet.especie == 'GATO' %}fa-cat
+                                                    {% else %}fa-dove{% endif %} 
+                                                    text-white text-xs"></i>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-4">
+                                    <div class="flex justify-center gap-2">
+                                        <button class="btn btn-sm btn-primary action-btn gap-1">
+                                            <i class="fas fa-eye text-xs"></i>
+                                            Ver
+                                        </button>
+                                        <a href="{% url 'editar_tutor' tutor.id %}" class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700 action-btn">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="tel:{{ tutor.telefone }}" class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700 action-btn">
+                                            <i class="fas fa-phone"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flex justify-between items-center p-4 border-t border-gray-700">
+                    <p class="text-gray-400 text-sm">Mostrando {{ tutores.count }} de {{ total_tutores }} tutores</p>
+                    <div class="flex gap-2">
+                        <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-sm btn-primary">1</button>
+                        <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">2</button>
+                        <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">3</button>
+                        <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
