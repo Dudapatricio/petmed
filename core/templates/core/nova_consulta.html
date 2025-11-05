@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Consulta - PetMed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #252540;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #a855f7;
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+        }
+
+        .glass-card {
+            background: rgba(37, 37, 64, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .accent-gradient {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+        }
+
+        .page-title {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, var(--accent-primary) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        .search-input {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .form-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .btn-voltar {
+            background: rgba(139, 92, 246, 0.2);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: var(--accent-primary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-voltar:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .select-input {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .select-input:focus {
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-custom {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-custom:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6">
+    <div class="max-w-2xl mx-auto">
+        
+        <a href="{% url 'consultas' %}" class="inline-flex items-center gap-2 btn-voltar px-4 py-2 rounded-lg mb-6 no-underline">
+            <i class="fas fa-arrow-left"></i>
+            Voltar para Consultas
+        </a>
+        
+        
+        <div class="glass-card p-8 shadow-xl">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-3 rounded-xl">
+                    <i class="fas fa-calendar-plus text-white text-xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold page-title">Nova Consulta</h1>
+            </div>
+            
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="space-y-6">
+                   
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-paw mr-2"></i>
+                            Selecione o Pet
+                        </label>
+                        <select name="pet" class="select-input" required>
+                            <option value="" disabled selected>Escolha um pet...</option>
+                            {% for pet in pets %}
+                            <option value="{{ pet.id }}">{{ pet.nome }} - {{ pet.tutor.nome }} ({{ pet.raca }})</option>
+                            {% empty %}
+                            <option value="" disabled>Nenhum pet cadastrado</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-user-md mr-2"></i>
+                            Veterinário
+                        </label>
+                        <input type="text" name="veterinario" class="search-input w-full p-3" placeholder="Digite o nome do veterinário" required>
+                    </div>
+                    
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-clock mr-2"></i>
+                            Data e Hora da Consulta
+                        </label>
+                        <input type="datetime-local" name="data_consulta" class="search-input w-full p-3" required>
+                    </div>
+                    
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-sticky-note mr-2"></i>
+                            Observações (Opcional)
+                        </label>
+                        <textarea name="observacoes" class="search-input w-full p-3" rows="3" placeholder="Adicione observações sobre a consulta..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-heartbeat mr-2"></i>
+                            Sintomas
+                        </label>
+                        <textarea name="sintomas" class="search-input w-full p-3" rows="3" placeholder="Descreva os sintomas apresentados pelo pet..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-file-medical mr-2"></i>
+                            Diagnóstico
+                        </label>
+                        <textarea name="diagnostico" class="search-input w-full p-3" rows="3" placeholder="Diagnóstico da consulta..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">
+                            <i class="fas fa-pills mr-2"></i>
+                            Medicamentos
+                        </label>
+                        <textarea name="medicamentos" class="search-input w-full p-3" rows="3" placeholder="Medicamentos prescritos..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="mt-8 flex flex-col sm:flex-row gap-4">
+                    <button type="submit" class="btn-primary py-3 px-6 rounded-lg flex items-center justify-center gap-2 flex-1 pulse-animation">
+                        <i class="fas fa-calendar-check"></i>
+                        Agendar Consulta
+                    </button>
+                    <a href="{% url 'consultas' %}" class="btn-outline-custom py-3 px-6 rounded-lg flex items-center justify-center gap-2 flex-1 no-underline">
+                        <i class="fas fa-times"></i>
+                        Cancelar
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <div class="glass-card p-6 mt-6 border-l-4 border-purple-500">
+            <div class="flex items-start gap-3">
+                <i class="fas fa-info-circle text-purple-400 mt-1"></i>
+                <div>
+                    <h3 class="font-semibold text-white mb-2">Informações Importantes</h3>
+                    <p class="text-gray-400 text-sm">
+                        Certifique-se de que o pet está cadastrado no sistema antes de agendar a consulta. 
+                        Consultas agendadas aparecerão na lista principal.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

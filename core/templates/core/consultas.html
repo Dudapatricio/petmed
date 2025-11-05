@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultas - Clínica Veterinária</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+    --bg-primary: #0f0f23;
+    --bg-secondary: #1a1a2e;
+    --bg-card: #252540;
+    --accent-primary: #8b5cf6;
+    --accent-secondary: #a855f7;
+    --text-primary: #f8fafc;
+    --text-secondary: #cbd5e1;
+}
+
+body {
+    background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+}
+
+.glass-card {
+    background: rgba(37, 37, 64, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.accent-gradient {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+}
+
+.sidebar-gradient {
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+}
+
+.stat-card {
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+}
+
+.page-title {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #7c3aed 0%, var(--accent-primary) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
+}
+
+.table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.table-header {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    color: white;
+}
+
+.table-row {
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-card);
+}
+
+.table-row:hover {
+    background: rgba(139, 92, 246, 0.1);
+    transform: translateY(-1px);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-confirmada {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-pendente {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-cancelada {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.search-input {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.search-input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+}
+
+.action-btn {
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.table {
+    background: transparent;
+}
+
+.table th {
+    background: transparent;
+    color: var(--text-primary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+}
+
+.btn-voltar {
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    color: var(--accent-primary);
+    transition: all 0.3s ease;
+}
+
+.btn-voltar:hover {
+    background: rgba(139, 92, 246, 0.3);
+    transform: translateY(-2px);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.stat-icon {
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.pagination-btn {
+    background: rgba(37, 37, 64, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+}
+
+.pagination-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.pagination-btn.active {
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-secondary) 100%);
+    border: none;
+    color: white;
+}
+    </style>
+</head>
+
+<body class="p-6 lg:p-8">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+            <div>
+                <a href="{% url 'dashboard' %}" class="inline-flex items-center gap-2 btn btn-ghost text-gray-300 hover:text-white mb-4 transition-colors">
+                    <i class="fas fa-arrow-left"></i>
+                    Voltar ao Dashboard
+                </a>
+                <h1 class="text-3xl lg:text-4xl font-bold page-title">Consultas Agendadas</h1>
+                <p class="text-gray-400 mt-2">Gerencie e visualize todas as consultas da clínica</p>
+            </div>
+            
+            <a href="{% url 'nova_consulta' %}" class="btn btn-primary gap-2">
+                <i class="fas fa-plus"></i>
+                Nova Consulta
+            </a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="glass-card p-6 flex items-center justify-between">
+                <div>
+                    <p class="text-gray-400 text-sm">Total de Consultas</p>
+                    <p class="text-3xl font-bold mt-1">{{ total_consultas }}</p>
+                </div>
+                <div class="bg-purple-500/20 p-3 rounded-xl">
+                    <i class="fas fa-calendar-check text-2xl text-purple-400"></i>
+                </div>
+            </div>
+            
+            <div class="glass-card p-6 flex items-center justify-between">
+                <div>
+                    <p class="text-gray-400 text-sm">Confirmadas</p>
+                    <p class="text-3xl font-bold mt-1">{{ confirmadas }}</p>
+                </div>
+                <div class="bg-green-500/20 p-3 rounded-xl">
+                    <i class="fas fa-check-circle text-2xl text-green-400"></i>
+                </div>
+            </div>
+            
+            <div class="glass-card p-6 flex items-center justify-between">
+                <div>
+                    <p class="text-gray-400 text-sm">Pendentes</p>
+                    <p class="text-3xl font-bold mt-1">{{ pendentes }}</p>
+                </div>
+                <div class="bg-yellow-500/20 p-3 rounded-xl">
+                    <i class="fas fa-clock text-2xl text-yellow-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-6 mb-8">
+            <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <div class="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                    <div class="relative flex-1">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" placeholder="Buscar por pet, tutor ou veterinário..." class="search-input pl-10 pr-4 py-2.5 rounded-lg w-full">
+                    </div>
+                    
+                    <select class="select search-input w-full sm:w-40">
+                        <option disabled selected>Status</option>
+                        <option>Todas</option>
+                        <option>Confirmadas</option>
+                        <option>Pendentes</option>
+                        <option>Canceladas</option>
+                    </select>
+                </div>
+                
+                <div class="flex gap-2 w-full lg:w-auto">
+                    <button class="btn btn-primary gap-2 flex-1 lg:flex-none">
+                        <i class="fas fa-filter"></i>
+                        Filtrar
+                    </button>
+                    <button class="btn btn-outline border-gray-600 text-gray-300 hover:bg-gray-700 gap-2 flex-1 lg:flex-none">
+                        <i class="fas fa-sync"></i>
+                        Atualizar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass-card p-0 overflow-hidden">
+            <div class="table-container">
+                <table class="table w-full">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="text-white font-semibold py-4">Pet</th>
+                            <th class="text-white font-semibold py-4">Tutor</th>
+                            <th class="text-white font-semibold py-4">Data</th>
+                            <th class="text-white font-semibold py-4">Horário</th>
+                            <th class="text-white font-semibold py-4">Veterinário</th>
+                            <th class="text-white font-semibold py-4">Status</th>
+                            <th class="text-white font-semibold py-4 text-center">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for consulta in consultas %}
+                        <tr class="table-row">
+                            <td class="py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="avatar">
+                                        <div class="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center">
+                                            <span class="text-white font-bold">{{ consulta.pet.nome|first }}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <p class="font-semibold">{{ consulta.pet.nome }}</p>
+                                        <p class="text-xs text-gray-400">{{ consulta.pet.raca }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <p class="font-medium">{{ consulta.pet.tutor.nome }}</p>
+                                <p class="text-xs text-gray-400">{{ consulta.pet.tutor.telefone }}</p>
+                            </td>
+                            <td class="py-4">{{ consulta.data_consulta|date:"d/m/Y" }}</td>
+                            <td class="py-4">
+                                <div class="flex items-center gap-1">
+                                    <i class="fas fa-clock text-purple-400 text-sm"></i>
+                                    <span>{{ consulta.data_consulta|date:"H:i" }}</span>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center">
+                                        <span class="text-white text-xs font-bold">{{ consulta.veterinario|first }}</span>
+                                    </div>
+                                    <span>{{ consulta.veterinario }}</span>
+                                </div>
+                            </td>
+                            <td class="py-4">
+                                <span class="status-badge status-{{ consulta.status|lower }}">{{ consulta.status }}</span>
+                            </td>
+                            <td class="py-4">
+                                <div class="flex justify-center gap-2">
+                                    <a href="{% url 'detalhes_consulta' consulta.id %}" class="btn btn-sm btn-primary action-btn gap-1">
+                                        <i class="fas fa-eye text-xs"></i>
+                                        Ver
+                                    </a>
+                                    <a href="{% url 'editar_consulta' consulta.id %}" class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700 action-btn">
+                                         <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="flex justify-between items-center p-4 border-t border-gray-700">
+                <p class="text-gray-400 text-sm">Mostrando {{ consultas.count }} de {{ total_consultas }} consultas</p>
+                <div class="flex gap-2">
+                    <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">
+                        <i class="fas fa-chevron-left"></i> 
+                    </button>
+                    <button class="btn btn-sm btn-primary">1</button>
+                    <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">2</button>
+                    <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">3</button>
+                    <button class="btn btn-sm btn-outline border-gray-600 text-gray-300 hover:bg-gray-700">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
