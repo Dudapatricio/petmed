@@ -18,7 +18,7 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 from django.urls import path
-from core.views import dashboard, consultas, petsCadastro, tutores, nova_consulta, cadastrar_pet, editar_pet, cadastrar_tutor, editar_tutor
+from core.views import dashboard, consultas, petsCadastro, tutores, nova_consulta, cadastrar_pet, editar_pet, cadastrar_tutor, editar_tutor, detalhes_pet, detalhes_tutor, detalhes_consulta, editar_consulta
 
 
 urlpatterns = [
@@ -32,5 +32,8 @@ urlpatterns = [
     path('tutores/', tutores, name='tutores'),
     path('tutores/novo/', cadastrar_tutor, name='cadastrar_tutor'),
     path('tutores/editar/<int:tutor_id>/', editar_tutor, name='editar_tutor'),
-    
+    path('pets/detalhes/<int:pet_id>/', detalhes_pet, name='detalhes_pet'),
+    path('tutores/detalhes/<int:tutor_id>/', detalhes_tutor, name='detalhes_tutor'),
+    path('consultas/detalhes/<int:consulta_id>/', detalhes_consulta, name='detalhes_consulta'),
+    path('consultas/editar/<int:consulta_id>/', editar_consulta, name='editar_consulta'),
 ]

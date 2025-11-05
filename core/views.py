@@ -137,3 +137,46 @@ def editar_tutor(request, tutor_id):
         return redirect('tutores')
     
     return render(request, 'cadastrar_tutor.html', {'tutor': tutor})
+
+def detalhes_pet(request, pet_id):
+    pet = get_object_or_404(Pet, id=pet_id)
+    consultas = Consulta.objects.filter(pet=pet).order_by('-data_consulta')
+    return render(request, 'core/detalhes_pet.html', {
+    'pet': pet,
+    'consultas': consultas
+})
+
+def detalhes_tutor(request, tutor_id):
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    pets = Pet.objects.filter(tutor=tutor)
+    return render(request, 'core/detalhes_tutor.html', {
+        'tutor': tutor,
+        'pets': pets
+    })
+
+def detalhes_consulta(request, consulta_id):
+     consulta = get_object_or_404(Consulta, id=consulta_id)
+     return render(request, 'core/detalhes_consulta.html', {
+        'consulta': consulta
+    })
+
+def editar_consulta(request, consulta_id):
+    consulta = get_object_or_404(Consulta, id=consulta_id)
+    
+    if request.method == 'POST':
+        consulta.pet_id = request.POST.get('pet')
+        consulta.veterinario = request.POST.get('veterinario')
+        consulta.data_consulta = request.POST.get('data_consulta')
+        consulta.observacoes = request.POST.get('observacoes')
+        consulta.sintomas = request.POST.get('sintomas')
+        consulta.diagnostico = request.POST.get('diagnostico')
+        consulta.medicamentos = request.POST.get('medicamentos')
+        consulta.save()
+        
+        return redirect('consultas')
+
+    pets = Pet.objects.all()
+    return render(request, 'core/editar_consulta.html', {
+        'consulta': consulta,
+        'pets': pets
+    })

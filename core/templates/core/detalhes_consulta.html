@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes da Consulta - PetMed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+     <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+        .btn-outline-custom {
+            border: 1px solid #4B5563;
+            color: #D1D5DB;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-custom:hover {
+            border-color: #8B5CF6;
+            color: #8B5CF6;
+        }
+    </style>
+    
+</head>
+<body class="min-h-screen bg-gray-900 p-6">
+    <div class="max-w-4xl mx-auto">
+        
+        <a href="{% url 'consultas' %}" class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left"></i>
+            Voltar para Consultas
+        </a>
+
+        
+        <div class="glass-card p-8 mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-2xl">
+                        <i class="fas fa-calendar-check text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-white">Consulta #{{ consulta.id }}</h1>
+                        <p class="text-gray-400">{{ consulta.data_consulta|date:"d/m/Y H:i" }}</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold bg-green-500 text-white">
+                        Realizada
+                    </span>
+                </div>
+            </div>
+
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                            <i class="fas fa-paw text-purple-400"></i>
+                            Informações do Pet
+                        </h3>
+                        <div class="space-y-2 text-gray-300">
+                            <p><strong>Pet:</strong> {{ consulta.pet.nome }}</p>
+                            <p><strong>Espécie:</strong> {{ consulta.pet.especie }}</p>
+                            <p><strong>Raça:</strong> {{ consulta.pet.raca }}</p>
+                            <p><strong>Idade:</strong> {{ consulta.pet.idade }} anos</p>
+                            <p><strong>Tutor:</strong> {{ consulta.pet.tutor.nome }}</p>
+                        </div>
+                    </div>
+
+                    
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                            <i class="fas fa-user-md text-purple-400"></i>
+                            Veterinário
+                        </h3>
+                        <div class="space-y-2 text-gray-300">
+                            <p><strong>Nome:</strong> {{ consulta.veterinario }}</p>
+                            <p><strong>Data:</strong> {{ consulta.data_consulta|date:"d/m/Y" }}</p>
+                            <p><strong>Hora:</strong> {{ consulta.data_consulta|date:"H:i" }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                            <i class="fas fa-heartbeat text-purple-400"></i>
+                            Sintomas
+                        </h3>
+                        <div class="text-gray-300">
+                            {% if consulta.sintomas %}
+                                <p class="whitespace-pre-line">{{ consulta.sintomas }}</p>
+                            {% else %}
+                                <p class="text-gray-500 italic">Nenhum sintoma registrado.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                            <i class="fas fa-file-medical text-purple-400"></i>
+                            Diagnóstico
+                        </h3>
+                        <div class="text-gray-300">
+                            {% if consulta.diagnostico %}
+                                <p class="whitespace-pre-line">{{ consulta.diagnostico }}</p>
+                            {% else %}
+                                <p class="text-gray-500 italic">Nenhum diagnóstico registrado.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                        <i class="fas fa-pills text-purple-400"></i>
+                        Medicamentos
+                    </h3>
+                    <div class="text-gray-300">
+                        {% if consulta.medicamentos %}
+                            <p class="whitespace-pre-line">{{ consulta.medicamentos }}</p>
+                        {% else %}
+                            <p class="text-gray-500 italic">Nenhum medicamento prescrito.</p>
+                        {% endif %}
+                    </div>
+                </div>
+
+                
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                        <i class="fas fa-sticky-note text-purple-400"></i>
+                        Observações
+                    </h3>
+                    <div class="text-gray-300">
+                        {% if consulta.observacoes %}
+                            <p class="whitespace-pre-line">{{ consulta.observacoes }}</p>
+                        {% else %}
+                            <p class="text-gray-500 italic">Nenhuma observação adicional.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="flex gap-4">
+                <a href="{% url 'consultas' %}" class="btn-primary py-3 px-6 rounded-lg flex items-center gap-2">
+                    <i class="fas fa-edit"></i>
+                    Editar Consulta
+                </a>
+                <a href="{% url 'consultas' %}" class="btn-outline-custom py-3 px-6 rounded-lg flex items-center gap-2">
+                    <i class="fas fa-times"></i>
+                    Fechar
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

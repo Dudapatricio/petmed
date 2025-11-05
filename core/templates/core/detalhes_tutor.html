@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Tutor - PetMed</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-gray-900 p-6">
+    <div class="max-w-4xl mx-auto">
+        
+        <a href="{% url 'tutores' %}" class="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-lg text-gray-300 hover:text-white transition-colors">
+            <i class="fas fa-arrow-left"></i>
+            Voltar para Tutores
+        </a>
+
+        
+        <div class="glass-card p-8 mb-6">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center gap-4">
+                    <div class="bg-gradient-to-r from-purple-500 to-pink-500 p-4 rounded-2xl">
+                        <i class="fas fa-user text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold text-white">{{ tutor.nome }}</h1>
+                        <p class="text-gray-400">Tutor desde {{ tutor.data_cadastro|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                
+                <div class="space-y-4">
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                            <i class="fas fa-address-card text-purple-400"></i>
+                            Informações de Contato
+                        </h3>
+                        <div class="space-y-2 text-gray-300">
+                            <p><strong><i class="fas fa-phone mr-2"></i>Telefone:</strong> {{ tutor.telefone }}</p>
+                            <p><strong><i class="fas fa-envelope mr-2"></i>E-mail:</strong> {{ tutor.email|default:"Não informado" }}</p>
+                            <p><strong><i class="fas fa-id-card mr-2"></i>CPF:</strong> {{ tutor.cpf|default:"Não informado" }}</p>
+                        </div>
+                    </div>
+
+                    
+                    <div class="bg-gray-800 p-4 rounded-lg">
+                        <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                            <i class="fas fa-map-marker-alt text-purple-400"></i>
+                            Endereço
+                        </h3>
+                        <div class="text-gray-300">
+                            {% if tutor.endereco %}
+                                <p class="whitespace-pre-line">{{ tutor.endereco }}</p>
+                            {% else %}
+                                <p class="text-gray-500 italic">Endereço não informado.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+                        <i class="fas fa-paw text-purple-400"></i>
+                        Pets do Tutor
+                    </h3>
+                    <div class="space-y-3">
+                        {% if pets %}
+                            {% for pet in pets %}
+                            <div class="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                                <div>
+                                    <p class="font-semibold text-white">{{ pet.nome }}</p>
+                                    <p class="text-xs text-gray-400">{{ pet.raca }} • {{ pet.especie }}</p>
+                                </div>
+                                <a href="{% url 'detalhes_pet' pet.id %}" class="text-purple-400 hover:text-purple-300">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-gray-500 italic text-center py-4">Nenhum pet cadastrado para este tutor.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="flex gap-4">
+                <a href="{% url 'editar_tutor' tutor.id %}" class="btn-primary py-3 px-6 rounded-lg flex items-center gap-2">
+                    <i class="fas fa-edit"></i>
+                    Editar Tutor
+                </a>
+                <a href="{% url 'tutores' %}" class="btn-outline-custom py-3 px-6 rounded-lg flex items-center gap-2">
+                    <i class="fas fa-times"></i>
+                    Fechar
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #8B5CF6, #EC4899);
+            color: white;
+            border: none;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(139, 92, 246, 0.3);
+        }
+        .btn-outline-custom {
+            border: 1px solid #4B5563;
+            color: #D1D5DB;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-custom:hover {
+            border-color: #8B5CF6;
+            color: #8B5CF6;
+        }
+    </style>
+</body>
+</html>
