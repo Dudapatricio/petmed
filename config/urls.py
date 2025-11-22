@@ -18,8 +18,10 @@ Including another URLconf
 from django.urls import path, include
 from django.contrib import admin
 from django.urls import path
-from core.views import dashboard, consultas, petsCadastro, tutores, nova_consulta, cadastrar_pet, editar_pet, cadastrar_tutor, editar_tutor, detalhes_pet, detalhes_tutor, detalhes_consulta, editar_consulta
-
+from core.views import dashboard
+from consultas.views import consultas, nova_consulta, detalhes_consulta, editar_consulta
+from Pets.views import petsCadastro, cadastrar_pet, editar_pet, detalhes_pet
+from tutores.views import tutores, cadastrar_tutor, editar_tutor, detalhes_tutor
 
 urlpatterns = [
     path('admin/', admin.site.urls),

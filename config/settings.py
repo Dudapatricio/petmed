@@ -30,6 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'core',
     'dashboard',
+    'tutores',
+    'Pets',
+    'consultas',
     
 ]
 
