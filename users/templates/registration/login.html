@@ -1,0 +1,13 @@
+
+{% block content %}
+
+    {% if form.errors %}
+        <p>Login ou senha estão incorretos</p>
+    {% endif %}
+    <form action="{% url 'login' %}" method="post" >
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name="submit">Entrar</button>
+        <input type="hidden" name="next" value="{% url 'home' %}"/>
+    </form>
+{% endblock %}

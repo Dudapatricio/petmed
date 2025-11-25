@@ -29,11 +29,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
+<<<<<<< HEAD
     'dashboard',
     'tutores',
     'Pets',
     'consultas',
     
+=======
+    'users',
+>>>>>>> feature/login-app
 ]
 
 MIDDLEWARE = [
@@ -105,3 +109,7 @@ STATICFILES_DIRS = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Configurações de autenticação
+LOGIN_REDIRECT_URL = '/dashboard/'  
+LOGOUT_REDIRECT_URL = '/'  
