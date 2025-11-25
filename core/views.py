@@ -1,10 +1,14 @@
-<<<<<<< HEAD
 # core/views.py
 from django.shortcuts import render, redirect, get_object_or_404 
 from consultas.models import Consulta
 from tutores.models import Tutor
 from Pets.models import Pet
 from datetime import date
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+
 
 def dashboard(request):
     context = {
@@ -13,14 +17,6 @@ def dashboard(request):
         'total_tutores': Tutor.objects.count(),
     }
     return render(request, 'dashboard/dashboard.html', context)
-
-=======
-# Create your views here.
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login
 
 def login_usuario(request):
     if request.method == 'POST':
@@ -52,5 +48,5 @@ def cadastro_usuario(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard.html')
->>>>>>> feature/login-app
+    return render(request, 'dashboard/dashboard.html')
+

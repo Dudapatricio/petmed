@@ -15,23 +15,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.urls import path, include
-from django.contrib import admin
-<<<<<<< HEAD
 from django.urls import path
-from core.views import dashboard
+from django.contrib import admin
+from core.views import dashboard, cadastro_usuario, login_usuario
 from consultas.views import consultas, nova_consulta, detalhes_consulta, editar_consulta
 from Pets.views import petsCadastro, cadastrar_pet, editar_pet, detalhes_pet
 from tutores.views import tutores, cadastrar_tutor, editar_tutor, detalhes_tutor
-=======
-from core.views import cadastro_usuario, login_usuario, dashboard  
-from django.contrib.auth import views as auth_views
->>>>>>> feature/login-app
 
 urlpatterns = [
     path('', cadastro_usuario, name='home'),  
     path('admin/', admin.site.urls),
-<<<<<<< HEAD
     path('dashboard/', dashboard, name='dashboard'),
     path('consultas/', consultas, name='consultas'),
     path('consulta/nova/', nova_consulta, name='nova_consulta'),
@@ -44,14 +37,8 @@ urlpatterns = [
     path('pets/detalhes/<int:pet_id>/', detalhes_pet, name='detalhes_pet'),
     path('tutores/detalhes/<int:tutor_id>/', detalhes_tutor, name='detalhes_tutor'),
     path('consultas/detalhes/<int:consulta_id>/', detalhes_consulta, name='detalhes_consulta'),
-    path('consultas/editar/<int:consulta_id>/', editar_consulta, name='editar_consulta'),
-]
-=======
-    path('cadastro/', cadastro_usuario, name='cadastro_usuario'),
-    
     path('login/', login_usuario, name='login'),
-    
-    
+    path('consultas/editar/<int:consulta_id>/', editar_consulta, name='editar_consulta'),
     path('dashboard/', dashboard, name='dashboard'),  
+    path('cadastro/', cadastro_usuario, name='cadastro_usuario'),
 ]
->>>>>>> feature/login-app

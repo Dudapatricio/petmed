@@ -29,15 +29,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-<<<<<<< HEAD
     'dashboard',
     'tutores',
     'Pets',
     'consultas',
-    
-=======
     'users',
->>>>>>> feature/login-app
+
 ]
 
 MIDDLEWARE = [
